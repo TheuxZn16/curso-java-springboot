@@ -5,10 +5,20 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import TheuxZn16.com.github.exception.UnsuportedMathOpperationException;
+import TheuxZn16.com.github.utils.ConvertToDouble;
+import TheuxZn16.com.github.utils.isNumericChecker;
 
 @RestController
 @RequestMapping("/math")
 public class MathController {
+
+  private Boolean isNumeric(String strNumber) {
+    return isNumericChecker.isNumeric(strNumber);
+  }
+
+  private Double convertToDouble(String strNumber) throws Exception {
+    return ConvertToDouble.convertToDouble(strNumber);
+  }
 
   @RequestMapping("/sum/{numberOne}/{numberTwo}")
   public Double sum(
@@ -73,19 +83,5 @@ public class MathController {
       throw new UnsuportedMathOpperationException("Please set a numeric value");
     }
     return Math.sqrt(convertToDouble(numberOne));
-  }
-
-  private boolean isNumeric(String strNumber) {
-    if (strNumber == null || strNumber.isEmpty())
-      return false;
-    String number = strNumber.replaceAll(",", ".");
-    return number.matches("[-+]?[0-9]*\\.?[0-9]+");
-  }
-
-  private Double convertToDouble(String strNumber) throws Exception {
-    if (strNumber == null || strNumber.isEmpty())
-      throw new UnsuportedMathOpperationException("Please set a numeric value");
-    String number = strNumber.replaceAll(",", ".");
-    return Double.parseDouble(number);
   }
 }
