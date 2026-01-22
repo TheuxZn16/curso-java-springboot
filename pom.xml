@@ -30,6 +30,26 @@
 		</dependency>
 
 		<dependency>
+			<groupId>org.flywaydb</groupId>
+			<artifactId>flyway-core</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.flywaydb</groupId>
+			<artifactId>flyway-mysql</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>com.fasterxml.jackson.dataformat</groupId>
+			<artifactId>jackson-dataformat-xml</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>com.fasterxml.jackson.dataformat</groupId>
+			<artifactId>jackson-dataformat-yaml</artifactId>
+		</dependency>
+
+		<dependency>
     	<groupId>com.github.dozermapper</groupId>
     	<artifactId>dozer-core</artifactId>
     	<version>${dozer.version}</version>
@@ -61,6 +81,17 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
+
+			<plugin>
+            <groupId>org.flywaydb</groupId>
+            <artifactId>flyway-maven-plugin</artifactId>
+            <version>10.20.1</version>
+            <configuration>
+                <url>jdbc:mysql://127.0.0.1:3306/curso_java_db</url>
+                <user>root</user>
+                <password>123456</password>
+            </configuration>
+        </plugin>
 		</plugins>
 	</build>
 

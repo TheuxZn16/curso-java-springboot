@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import TheuxZn16.com.github.model.Person;
+import TheuxZn16.com.github.data.dto.PersonDTO;
 import TheuxZn16.com.github.services.PersonServices;
 
 @RestController
@@ -24,18 +24,22 @@ public class PersonController {
   @Autowired
   private PersonServices services;
 
-  @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-  public Person findById(@PathVariable("id") Long id) {
+  @GetMapping(value = "/{id}", produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE,
+      MediaType.APPLICATION_YAML_VALUE })
+  public PersonDTO findById(@PathVariable("id") Long id) {
     return services.findById(id);
   }
 
-  @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-  public List<Person> findAll() {
+  @GetMapping(produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE,
+      MediaType.APPLICATION_YAML_VALUE })
+  public List<PersonDTO> findAll() {
     return services.findAll();
   }
 
-  @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-  public Person create(@RequestBody Person person) {
+  @PostMapping(produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE,
+      MediaType.APPLICATION_YAML_VALUE }, consumes = {
+          MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
+  public PersonDTO create(@RequestBody PersonDTO person) {
     return services.create(person);
   }
 
@@ -45,8 +49,10 @@ public class PersonController {
     return ResponseEntity.noContent().build();
   }
 
-  @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-  public Person update(@RequestBody Person person) {
+  @PutMapping(produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE,
+      MediaType.APPLICATION_YAML_VALUE }, consumes = {
+          MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
+  public PersonDTO update(@RequestBody PersonDTO person) {
     return services.update(person);
   }
 }

@@ -8,7 +8,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import TheuxZn16.com.github.data.dto.PersonDTO;
 import TheuxZn16.com.github.exception.ResourceNotFoundException;
+import static TheuxZn16.com.github.mapper.ObjectMapper.parseListObjects;
+import static TheuxZn16.com.github.mapper.ObjectMapper.parseObject;
 import TheuxZn16.com.github.model.Person;
 import TheuxZn16.com.github.repository.PersonRepository;
 
@@ -19,30 +22,30 @@ public class PersonServices {
   @Autowired
   PersonRepository repository;
 
-  public List<Person> findAll() {
+  public List<PersonDTO> findAll() {
     logger.info("Finding all People!");
 
-    return repository.findAll();
+    return parseListObjects(repository.findAll(), PersonDTO.class);
   }
 
-  public Person findById(Long id) {
+  public PersonDTO findById(Long id) {
     logger.info("Finding one Person!");
 
-    Objects.requireNonNull(id, "ID cannot be null");
-    return repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("No records for this ID"));
+    var entity = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("No records for this ID"));
+    return parseObject(entity, PersonDTO.class);
   }
 
-  public Person create(Person person) {
+  public PersonDTO create(PersonDTO person) {
     logger.info("Creating one Person!");
 
-    Objects.requireNonNull(person, "Person cannot be null");
-    return repository.save(person);
+    var entity = parseObject(person, Person.class);
+
+    return parseObject(repository.save(entity), PersonDTO.class);
   }
 
-  public Person update(Person person) {
+  public PersonDTO update(PersonDTO person) {
     logger.info("Updating one Person!");
 
-    Objects.requireNonNull(person, "Person cannot be null");
     Long id = Objects.requireNonNull(person.getId(), "Person ID cannot be null");
     Person entity = repository.findById(id)
         .orElseThrow(() -> new ResourceNotFoundException("No records for this ID"));
@@ -52,7 +55,8 @@ public class PersonServices {
     entity.setAddress(person.getAddress());
     entity.setGender(person.getGender());
 
-    return repository.save(entity);
+    return parseObject(repository.save(entity), PersonDTO.class);
+
   }
 
   public void delete(Long id) {
